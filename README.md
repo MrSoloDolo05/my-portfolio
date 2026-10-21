@@ -5,7 +5,7 @@ A personal developer portfolio inspired by the evolution of gaming, movies, the 
 
 **Live Website:** (https://my-portfolio-mauve-iota-25.vercel.app/)
 
-**GitHub Repository:** ADD_YOUR_GITHUB_REPOSITORY_URL_HERE
+**GitHub Repository:** (https://github.com/MrSoloDolo05/my-portfolio.git)
 
 ## Target Audience
 
