@@ -1,26 +1,182 @@
+
 @import "tailwindcss";
 
+/* Shared portfolio colours */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0d0b;
+  --foreground: #f2f4ef;
+  --panel: #101511;
+  --panel-raised: #171d18;
+  --border: #354236;
+  --accent: #79f54a;
+  --muted: #a3b2a4;
+  --subtle: #778579;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-panel: var(--panel);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Homepage: early-2000s gaming interface */
+.era-home {
+  --background: #0a0d0b;
+  --foreground: #f2f4ef;
+  --panel: #101511;
+  --panel-raised: #171d18;
+  --border: #354236;
+  --accent: #79f54a;
+  --muted: #a3b2a4;
+  --subtle: #778579;
+
+  background-image: linear-gradient(
+    rgb(255 255 255 / 1.5%) 1px,
+    transparent 1px
+  );
+  background-size: 100% 4px;
+}
+
+/* Projects: late-2000s/early-2010s interface */
+.era-projects {
+  --background: #09121d;
+  --foreground: #edf5fb;
+  --panel: #101e2b;
+  --panel-raised: #172a39;
+  --border: #29465b;
+  --accent: #43d9f5;
+  --muted: #a2b9c9;
+  --subtle: #728fa3;
+}
+
+/* Contact: contemporary interface */
+.era-contact {
+  --background: #111020;
+  --foreground: #f4f0ff;
+  --panel: #19172b;
+  --panel-raised: #24203b;
+  --border: #40375f;
+  --accent: #b9a0ff;
+  --muted: #c0bad5;
+  --subtle: #8982a9;
+}
+
+/* Page defaults */
+html {
+  min-height: 100%;
+  background: var(--background);
 }
 
 body {
+  min-height: 100vh;
+  margin: 0;
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* Reusable retro interface components */
+.retro-panel {
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 4%),
+    3px 3px 0 rgb(0 0 0 / 35%);
+}
+
+.retro-panel-raised {
+  border: 1px solid var(--border);
+  background: var(--panel-raised);
+  box-shadow:
+    inset 1px 1px 0 rgb(255 255 255 / 5%),
+    inset -1px -1px 0 rgb(0 0 0 / 25%);
+}
+
+.retro-label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.retro-chip {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--panel-raised);
+  padding: 0.5rem 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.75rem;
+}
+
+.retro-link-panel {
+  display: block;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: inset 1px 1px 0 rgb(255 255 255 / 3%);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.retro-link-panel:hover {
+  border-color: var(--accent);
+  background: var(--panel-raised);
+  transform: translateY(-2px);
+}
+
+/* Explicit colour utilities */
+.retro-page {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.retro-accent {
+  color: var(--accent);
+}
+
+.retro-muted {
+  color: var(--muted);
+}
+
+.retro-accent-bg {
+  background-color: var(--accent);
+}
+
+.retro-accent-border {
+  border-color: var(--accent);
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .retro-link-panel {
+    transition: none;
+  }
+
+  .retro-link-panel:hover {
+    transform: none;
+  }
 }
