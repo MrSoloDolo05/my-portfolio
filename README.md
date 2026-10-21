@@ -3,7 +3,7 @@
 
 A personal developer portfolio inspired by the evolution of gaming, movies, the internet, and technology. The design combines retro interface elements with modern, responsive web development.
 
-**Live Website:** ADD_YOUR_VERCEL_URL_HERE
+**Live Website:** (https://my-portfolio-mauve-iota-25.vercel.app/)
 
 **GitHub Repository:** ADD_YOUR_GITHUB_REPOSITORY_URL_HERE
 
