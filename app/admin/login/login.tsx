@@ -32,8 +32,9 @@ export default function LoginPage() {
 
       router.push('/admin');
       router.refresh();
-    } catch {
-      setError('SYSTEM ERROR: Login failed. Please try again.');
+} catch (err) {
+  console.error('Admin login exception:', err);
+  setError('SYSTEM ERROR: Login failed. Please try again.');
     } finally {
       setLoading(false);
     }
