@@ -1,11 +1,10 @@
-
 # My Developer Portfolio
 
 A personal developer portfolio inspired by the evolution of gaming, movies, the internet, and technology. The design combines retro interface elements with modern, responsive web development.
 
-**Live Website:** (https://my-portfolio-mauve-iota-25.vercel.app/)
+**Live Website:** [https://my-portfolio-mauve-iota-25.vercel.app/](https://my-portfolio-mauve-iota-25.vercel.app/)
 
-**GitHub Repository:** (https://github.com/MrSoloDolo05/my-portfolio.git)
+**GitHub Repository:** [https://github.com/MrSoloDolo05/my-portfolio](https://github.com/MrSoloDolo05/my-portfolio)
 
 ## Target Audience
 
@@ -18,13 +17,13 @@ Aspiring web developer / junior frontend developer.
 ## Website Pages
 
 - **Home (`/`)** — Introduction, profile information, skills, and navigation to other sections.
-- **Projects (`/projects`)** — A collection of projects, experiments, and work in progress. Fetches project data from Supabase.
+- **Projects (`/projects`)** — A collection of projects, experiments, and work in progress. Project data is fetched from Supabase.
 - **Contact (`/contact`)** — Contact information and professional connection links.
-- **Admin (`/admin`)** — Protected project management dashboard, accessed via `/admin/login`.
+- **Admin (`/admin`)** — Protected project management dashboard, accessed through `/admin/login`.
 
 ## Design Concept
 
-The portfolio uses the concept "Growing Up With the Future" to explore how games, films, the internet, and technology have evolved over time.
+The portfolio uses the concept **"Growing Up With the Future"** to explore how games, films, the internet, and technology have evolved over time.
 
 Each page has its own visual era while sharing a consistent navigation system and layout. The design aims to feel retro without sacrificing modern usability or responsiveness.
 
@@ -34,87 +33,44 @@ Each page has its own visual era while sharing a consistent navigation system an
 - React
 - TypeScript
 - Tailwind CSS
-- Supabase (database, auth, RLS)
-- Vercel for deployment
+- Supabase (database, authentication, and Row Level Security)
+- Vercel (deployment)
 
-## Supabase Integration
-
-This portfolio is connected to a Supabase project for dynamic project data and authentication.
-
-### Environment Variables
-
-Create a `.env.local` file in the project root with the following variables (values are set locally and in Vercel, never committed to Git):
-
-| Variable | Purpose |
-|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key (client-side) |
-| `SUPABASE_OWNER_ID` | Server-only environment variable containing the `auth.users.id` of the admin owner (used for server-side authorization, never exposed client-side) |
-
-> **Important:** Never use a Supabase `service_role` or secret key in client-side code or `NEXT_PUBLIC_` variables.
-
-### Installation
-
-```bash
-npm install
-```
-
-### Running Locally
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Database Schema
-
-**Table: `public.projects`**
-
-| Column | Type | Purpose |
-|---|---|---|
-| `id` | bigint, identity, primary key | Project identifier |
-| `title` | text, required | Project title |
-| `summary` | text, required | Project description |
-| `project_url` | text, nullable | Link to the project |
-| `image_url` | text, nullable | Project image URL |
-| `display_order` | integer, default 0 | Controls display order |
-| `owner_id` | uuid, required | References `auth.users(id)` |
-| `created_at` | timestamptz | Creation timestamp |
-
-### Authentication and RLS Design
-
-- **Sign-in:** Email/password via Supabase Auth. The admin dashboard is at `/admin`, with login at `/admin/login`.
-- **Authorization:** Server-side verification uses `getUser()` to retrieve the authenticated user's ID, which is compared against the `SUPABASE_OWNER_ID` server-only environment variable. Only the configured owner may access `/admin` and manage projects.
-- **Row Level Security (RLS):** RLS is enabled on the `public.projects` table. Public visitors can `SELECT` project records. Only the designated owner may `INSERT`, `UPDATE`, or `DELETE` records. No `service_role` key is used for any client-facing or routine admin CRUD operation.
-- **Error handling:** Invalid input, database errors, and empty states are handled gracefully on both the public Projects page and the admin dashboard.
-
-### Deployment
-
-1. Add the following environment variables to your Vercel project settings:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
-   - `SUPABASE_OWNER_ID`
-2. Redeploy the application.
-
-## Running the Project Locally
+## Getting Started
 
 ### Requirements
 
 - Node.js
 - npm
+- A Supabase project with the required database table and Storage bucket
 
 ### Installation
 
-Clone the repository:
+Clone the repository and install its dependencies:
 
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
+git clone https://github.com/MrSoloDolo05/my-portfolio.git
 cd my-portfolio
 npm install
 ```
 
-### Start the Development Server
+### Environment Variables
+
+Create a `.env.local` file in the project root and configure the following variables:
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable key used by the application |
+| `SUPABASE_OWNER_ID` | Server-side owner authorization ID, matching the admin user's Supabase Auth ID |
+
+Use your own project values. Do not commit `.env.local` or expose secret credentials.
+
+**Security:** Never place a Supabase `service_role` key or secret key in client-side code or in a `NEXT_PUBLIC_` environment variable.
+
+### Running Locally
+
+Start the development server:
 
 ```bash
 npm run dev
@@ -122,31 +78,101 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+Other available scripts:
+
+```bash
+npm run build
+npm run start
+npm run lint
+```
+
+- `npm run build` builds the production application.
+- `npm run start` starts the production server after a successful build.
+- `npm run lint` runs ESLint.
+
+## Supabase Integration
+
+Supabase provides dynamic project data, authentication, and database access controls.
+
+### Database Schema
+
+The application uses the `public.projects` table.
+
+| Column | Purpose |
+|---|---|
+| `id` | Project identifier |
+| `title` | Project title |
+| `summary` | Project description |
+| `project_url` | Optional link to the project |
+| `image_url` | Optional project image URL |
+| `display_order` | Controls the display order of projects |
+| `owner_id` | ID of the user who owns the project |
+| `created_at` | Record creation timestamp |
+
+### Authentication and Row Level Security
+
+- **Sign-in:** Email/password authentication through Supabase Auth.
+- **Admin access:** The dashboard is available at `/admin`, with login at `/admin/login`.
+- **Owner authorization:** The server checks the authenticated user's ID against the configured `SUPABASE_OWNER_ID`.
+- **Row Level Security (RLS):** RLS is enabled on the projects table. Policies control public project reads and restrict project-management operations to authorized users.
+- **Project management:** The admin dashboard supports creating, editing, deleting, ordering, and uploading project images.
+- **Error handling:** The public Projects page and admin dashboard provide handling for common errors and empty states.
+
+### Project Image Storage
+
+Project images are stored in the Supabase Storage bucket named `project-images`.
+
+The bucket is configured for public image access. Upload permissions should remain restricted to authorized users through the applicable Storage policies.
+
+## Deployment
+
+The application is deployed using Vercel.
+
+To configure deployment:
+
+1. Import the GitHub repository into Vercel, or connect the existing Vercel project to the repository.
+2. Add the required environment variables in the Vercel project settings:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+   - `SUPABASE_OWNER_ID`
+3. Ensure the variables are configured for the appropriate deployment environments.
+4. Redeploy after changing environment variables.
+5. Test the public pages, admin login, project management, and image uploads on the deployed website.
+
+**Live Website:** [https://my-portfolio-mauve-iota-25.vercel.app/](https://my-portfolio-mauve-iota-25.vercel.app/)
+
 ## Project Structure
 
+The main Next.js routes are located in the root `app/` directory. Shared Supabase helpers and other shared code are kept under `src/`.
+
 ```text
-src/
-  app/
-    page.tsx
-    globals.css
-    layout.tsx
-    projects/
-      page.tsx
-    contact/
-      page.tsx
-    admin/
-      (admin)/
-        page.tsx
-        layout.tsx
-        admin-layout.tsx
-        login.tsx
-        signout.tsx
-  lib/
-    supabase/
-      client.ts
-      server.ts
-      types.ts
+my-portfolio/
+├── app/
+│   ├── page.tsx
+│   ├── layout.tsx
+│   ├── globals.css
+│   ├── projects/
+│   │   └── page.tsx
+│   ├── contact/
+│   │   └── page.tsx
+│   └── admin/
+│       ├── login/
+│       │   └── page.tsx
+│       └── (protected)/
+│           ├── layout.tsx
+│           └── page.tsx
+├── src/
+│   └── lib/
+│       └── supabase/
+│           ├── client.ts
+│           └── server.ts
+├── public/
+├── .env.local
+├── package.json
+└── README.md
 ```
+
+This is a representative structure; other configuration, type, and supporting files may also be present.
 
 ## Future Improvements
 
@@ -155,4 +181,3 @@ src/
 - Add real contact and professional profile links.
 - Complete and save the page wireframes.
 - Incorporate feedback from peer review.
-
