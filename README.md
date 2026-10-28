@@ -124,6 +124,10 @@ Project images are stored in the Supabase Storage bucket named `project-images`.
 
 The bucket is configured for public image access. Upload permissions should remain restricted to authorized users through the applicable Storage policies.
 
+## Milestone Reflection
+
+I created a `public.projects` table in Supabase to store project titles, summaries, project links, image URLs, display order, and ownership information, with Row Level Security (RLS) enabled. The RLS policies allow unauthenticated visitors to read projects while restricting insert, update, and delete operations to the authorized owner. I tested the setup using an unauthenticated visitor and confirmed that projects could be read but could not be inserted, updated, or deleted. This verified that the public portfolio can display project data while project management remains restricted to the authorized owner.
+
 ## Deployment
 
 The application is deployed using Vercel.
