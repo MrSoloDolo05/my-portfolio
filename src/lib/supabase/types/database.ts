@@ -13,6 +13,7 @@ export type Database = {
         Row: {
           id: string;
           title: string;
+          slug: string;
           summary: string;
           project_url: string | null;
           image_url: string | null;
@@ -23,6 +24,7 @@ export type Database = {
         Insert: {
           id?: string;
           title: string;
+          slug: string;
           summary: string;
           project_url?: string | null;
           image_url?: string | null;
@@ -33,6 +35,7 @@ export type Database = {
         Update: {
           id?: string;
           title?: string;
+          slug?: string;
           summary?: string;
           project_url?: string | null;
           image_url?: string | null;

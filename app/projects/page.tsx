@@ -1,22 +1,25 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import type { Project } from "@/lib/supabase/types";
 
-type Project = {
-  id: number;
-  title: string;
-  summary: string;
-  project_url: string | null;
-  image_url: string | null;
-  display_order: number;
-};
+type ProjectCard = Pick<
+  Project,
+  | "id"
+  | "title"
+  | "slug"
+  | "summary"
+  | "project_url"
+  | "image_url"
+  | "display_order"
+>;
 
-async function getProjects(): Promise<Project[]> {
+async function getProjects(): Promise<ProjectCard[]> {
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("projects")
-    .select("id, title, summary, project_url, image_url, display_order")
+    .select("id, title, slug, summary, project_url, image_url, display_order")
     .order("display_order", { ascending: true })
     .order("id", { ascending: true });
 
@@ -24,11 +27,11 @@ async function getProjects(): Promise<Project[]> {
     throw error;
   }
 
-  return (data ?? []) as Project[];
+  return data ?? [];
 }
 
 async function ProjectsContent() {
-  let projects: Project[] = [];
+  let projects: ProjectCard[] = [];
   let error: string | null = null;
 
   try {
@@ -173,7 +176,14 @@ async function ProjectsContent() {
                       />
                     )}
 
-                    <div className="mt-6 border-t border-[var(--border)] pt-4">
+                    <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-t border-[var(--border)] pt-4">
+                      <Link
+                        href={`/projects/${project.slug}`}
+                        className="font-mono text-xs text-[var(--accent)] transition-colors hover:underline"
+                      >
+                        VIEW DETAILS →
+                      </Link>
+
                       {project.project_url ? (
                         <a
                           href={project.project_url}

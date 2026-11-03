@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 type Project = {
   id: string;
   title: string;
+  slug: string;
   summary: string;
   project_url: string | null;
   image_url: string | null;
@@ -18,6 +19,7 @@ type Project = {
 
 type FormState = {
   title: string;
+  slug: string;
   summary: string;
   project_url: string;
   image_url: string;
@@ -28,6 +30,7 @@ const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
 const emptyForm: FormState = {
   title: '',
+  slug: '',
   summary: '',
   project_url: '',
   image_url: '',
@@ -39,7 +42,7 @@ async function getProjects(): Promise<Project[]> {
   const { data, error } = await supabase
     .from('projects')
     .select(
-      'id, title, summary, project_url, image_url, display_order, created_at'
+      'id, title, slug, summary, project_url, image_url, display_order, created_at'
     )
     .order('display_order', { nullsFirst: true })
     .order('id');
@@ -64,6 +67,7 @@ async function createProject(
 
   const { error } = await supabase.from('projects').insert({
     title: form.title.trim(),
+    slug: form.slug.trim(),
     summary: form.summary.trim(),
     project_url: form.project_url.trim() || null,
     image_url: form.image_url || null,
@@ -84,6 +88,7 @@ async function updateProject(
     .from('projects')
     .update({
       title: form.title.trim(),
+      slug: form.slug,
       summary: form.summary.trim(),
       project_url: form.project_url.trim() || null,
       image_url: form.image_url || null,
@@ -152,12 +157,37 @@ async function uploadProjectImage(file: File): Promise<string> {
   return data.publicUrl;
 }
 
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function getSaveErrorMessage(error: unknown): string {
+  if (typeof error === 'object' && error !== null) {
+    if ('code' in error && error.code === '23505') {
+      return 'A project with this slug already exists. Choose a different slug.';
+    }
+
+    if ('message' in error && typeof error.message === 'string') {
+      return `Failed to save project: ${error.message}`;
+    }
+  }
+
+  return error instanceof Error
+    ? `Failed to save project: ${error.message}`
+    : 'Failed to save project. Please try again.';
+}
+
 export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -200,7 +230,18 @@ export default function AdminPage() {
     key: keyof FormState,
     value: string
   ) => {
-    setForm((previous) => ({ ...previous, [key]: value }));
+    setForm((previous) => {
+      const next = { ...previous, [key]: value };
+      if (key === 'title' && !editingId && !slugManuallyEdited) {
+        next.slug = generateSlug(value);
+      }
+      return next;
+    });
+  };
+
+  const handleSlugChange = (value: string) => {
+    setSlugManuallyEdited(true);
+    handleInputChange('slug', value);
   };
 
   const handleImageChange = (file: File | null) => {
@@ -227,14 +268,41 @@ export default function AdminPage() {
   const resetForm = () => {
     setEditingId(null);
     setForm(emptyForm);
+    setSlugManuallyEdited(false);
     setImageFile(null);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSaving(true);
     setError(null);
     setSuccess(null);
+
+    const title = form.title.trim();
+    const slug =
+      !editingId && !slugManuallyEdited
+        ? generateSlug(title)
+        : form.slug.trim();
+
+    if (!title) {
+      setError('Enter a project title.');
+      return;
+    }
+
+    if (!slug) {
+      setError(
+        'Enter a project slug. The project title must contain letters or numbers to generate one.'
+      );
+      return;
+    }
+
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+      setError(
+        'Use a lowercase slug with letters or numbers separated by single hyphens.'
+      );
+      return;
+    }
+
+    setSaving(true);
 
     try {
       let imageUrl = form.image_url;
@@ -243,7 +311,12 @@ export default function AdminPage() {
         imageUrl = await uploadProjectImage(imageFile);
       }
 
-      const submittedForm = { ...form, image_url: imageUrl };
+      const submittedForm = {
+        ...form,
+        title,
+        slug,
+        image_url: imageUrl,
+      };
 
       if (editingId) {
         await updateProject(editingId, submittedForm);
@@ -266,7 +339,7 @@ export default function AdminPage() {
       await saveProjectOrder(freshProjects.map((project) => project.id));
       await loadProjects();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save project.');
+      setError(getSaveErrorMessage(err));
     } finally {
       setSaving(false);
     }
@@ -299,8 +372,10 @@ export default function AdminPage() {
     setSuccess(null);
     setEditingId(project.id);
     setImageFile(null);
+    setSlugManuallyEdited(true);
     setForm({
       title: project.title,
+      slug: project.slug,
       summary: project.summary,
       project_url: project.project_url || '',
       image_url: project.image_url || '',
@@ -430,6 +505,26 @@ export default function AdminPage() {
                 className="mt-2 w-full border-2 border-slate-600 bg-[#10152f] p-3 text-sm text-white outline-none focus:border-lime-300"
                 required
               />
+            </label>
+
+            <label className="block text-xs uppercase tracking-wider text-slate-300">
+              Project slug
+              <input
+                type="text"
+                placeholder="e.g. pixel-adventure"
+                value={form.slug}
+                onChange={(event) => handleSlugChange(event.target.value)}
+                className="mt-2 w-full border-2 border-slate-600 bg-[#10152f] p-3 text-sm text-white outline-none focus:border-lime-300"
+                required
+                aria-describedby="project-slug-help"
+              />
+              <span
+                id="project-slug-help"
+                className="mt-2 block text-xs normal-case text-slate-500"
+              >
+                Used in the project detail URL. New slugs follow the title until
+                you edit this field.
+              </span>
             </label>
 
             <label className="block text-xs uppercase tracking-wider text-slate-300">
