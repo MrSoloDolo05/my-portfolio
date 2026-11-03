@@ -2,11 +2,36 @@
 import Link from "next/link";
 
 const skills = [
-  { name: "CompTIA A+", type: "CERTIFICATION" },
-  { name: "JavaScript", type: "LANGUAGE" },
-  { name: "Python", type: "LANGUAGE" },
-  { name: "HTML", type: "WEB" },
-  { name: "CSS", type: "WEB" },
+  {
+    name: "JavaScript",
+    type: "LANGUAGE",
+    href: "https://github.com/MrSoloDolo05/THE-BOX/blob/c7e336064b1d47f1b044d3f3fc1d8fca98ccf03a/the-box/thebox/js/app.js",
+    label: "THE BOX APP SOURCE",
+  },
+  {
+    name: "TypeScript",
+    type: "LANGUAGE",
+    href: "https://github.com/MrSoloDolo05/my-portfolio/blob/main/src/lib/supabase/types/database.ts",
+    label: "PROJECT DATABASE TYPES",
+  },
+  {
+    name: "React",
+    type: "FRAMEWORK",
+    href: "https://github.com/MrSoloDolo05/my-portfolio",
+    label: "PORTFOLIO REPOSITORY",
+  },
+  {
+    name: "Next.js",
+    type: "FRAMEWORK",
+    href: "https://github.com/MrSoloDolo05/my-portfolio/blob/main/app/projects/%5Bslug%5D/page.tsx",
+    label: "DYNAMIC PROJECT ROUTE",
+  },
+  {
+    name: "Supabase",
+    type: "DATA",
+    href: "https://github.com/MrSoloDolo05/my-portfolio/blob/main/app/projects/page.tsx",
+    label: "SUPABASE PROJECT QUERY",
+  },
 ];
 
 export default function Home() {
@@ -29,7 +54,7 @@ export default function Home() {
 
             <nav
               aria-label="Main navigation"
-              className="flex gap-5 font-mono text-xs sm:gap-7 sm:text-sm"
+              className="flex flex-wrap gap-5 font-mono text-xs sm:gap-7 sm:text-sm"
             >
               <Link
                 href="/"
@@ -43,6 +68,18 @@ export default function Home() {
                 className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
               >
                 PROJECTS
+              </Link>
+              <Link
+                href="/skills"
+                className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                SKILLS
+              </Link>
+              <Link
+                href="/about"
+                className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                ABOUT
               </Link>
               <Link
                 href="/contact"
@@ -150,9 +187,12 @@ export default function Home() {
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill, index) => (
-                <div
+                <a
                   key={skill.name}
-                  className="retro-panel-raised flex items-center gap-3 p-4"
+                  href={skill.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="retro-panel-raised flex items-center gap-3 p-4 transition-colors hover:border-[var(--accent)]"
                 >
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center border border-[var(--border)] font-mono text-sm text-[var(--accent)]">
                     {String(index + 1).padStart(2, "0")}
@@ -163,9 +203,21 @@ export default function Home() {
                     <p className="retro-label mt-1 text-[var(--subtle)]">
                       {skill.type}
                     </p>
+                    <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--accent)]">
+                      {skill.label}
+                    </p>
                   </div>
-                </div>
+                </a>
               ))}
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Link
+                href="/skills"
+                className="border border-[var(--border)] px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] text-[var(--foreground)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+              >
+                VIEW ALL SKILLS →
+              </Link>
             </div>
           </section>
 

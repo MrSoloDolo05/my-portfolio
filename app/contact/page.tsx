@@ -38,7 +38,7 @@ export default function Contact() {
 
             <nav
               aria-label="Main navigation"
-              className="flex gap-5 font-mono text-xs sm:gap-7 sm:text-sm"
+              className="flex flex-wrap gap-5 font-mono text-xs sm:gap-7 sm:text-sm"
             >
               <Link
                 href="/"
@@ -51,6 +51,18 @@ export default function Contact() {
                 className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
               >
                 PROJECTS
+              </Link>
+              <Link
+                href="/skills"
+                className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                SKILLS
+              </Link>
+              <Link
+                href="/about"
+                className="text-[var(--muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                ABOUT
               </Link>
               <Link
                 href="/contact"

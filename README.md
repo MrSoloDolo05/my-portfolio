@@ -18,8 +18,12 @@ Aspiring web developer / junior frontend developer.
 
 - **Home (`/`)** — Introduction, profile information, skills, and navigation to other sections.
 - **Projects (`/projects`)** — A collection of projects, experiments, and work in progress. Project data is fetched from Supabase.
+- **Project details (`/projects/[slug]`)** — Detail pages for projects, including the THE BOX case study.
+- **Skills (`/skills`)** — Skills grouped by area with links to supporting project evidence.
+- **About (`/about`)** — Background, development approach, and goals.
 - **Contact (`/contact`)** — Contact information and professional connection links.
 - **Admin (`/admin`)** — Protected project management dashboard, accessed through `/admin/login`.
+- **Admin login (`/admin/login`)** — Sign-in page for the protected admin dashboard.
 
 ## Design Concept
 
@@ -102,6 +106,7 @@ The application uses the `public.projects` table.
 |---|---|
 | `id` | Project identifier |
 | `title` | Project title |
+| `slug` | Unique URL identifier used by project detail pages |
 | `summary` | Project description |
 | `project_url` | Optional link to the project |
 | `image_url` | Optional project image URL |
@@ -127,6 +132,14 @@ The bucket is configured for public image access. Upload permissions should rema
 ## Milestone Reflection
 
 I created a `public.projects` table in Supabase to store project titles, summaries, project links, image URLs, display order, and ownership information, with Row Level Security (RLS) enabled. The RLS policies allow unauthenticated visitors to read projects while restricting insert, update, and delete operations to the authorized owner. I tested the setup using an unauthenticated visitor and confirmed that projects could be read but could not be inserted, updated, or deleted. This verified that the public portfolio can display project data while project management remains restricted to the authorized owner.
+
+## Milestone 2 Reflection
+
+I developed this portfolio with recruiters, potential employers and other developers in mind, aiming to give them a clear overview of my skills, projects and development journey. Building the THE BOX case study helped me practise documenting a project, explaining technical decisions and presenting my contributions transparently. I deliberately postponed some visual refinements and additional features so I could first establish a functional minimum viable product (MVP). This gives me a solid foundation to improve the portfolio's visual identity and expand its functionality as my skills and projects develop.
+
+## AI Assistance Disclosure
+
+AI tools were used extensively during development, primarily for code generation, implementation assistance, and troubleshooting. I directed development, defined requirements and functionality, made product decisions, reviewed generated changes, tested the application, and guided its refinement. The project includes AI-generated code; I do not claim to have independently written all of it.
 
 ## Deployment
 
@@ -155,8 +168,15 @@ my-portfolio/
 │   ├── page.tsx
 │   ├── layout.tsx
 │   ├── globals.css
-│   ├── projects/
+│   ├── about/
 │   │   └── page.tsx
+│   ├── skills/
+│   │   └── page.tsx
+│   ├── projects/
+│   │   ├── page.tsx
+│   │   └── [slug]/
+│   │       ├── page.tsx
+│   │       └── not-found.tsx
 │   ├── contact/
 │   │   └── page.tsx
 │   └── admin/
@@ -167,9 +187,16 @@ my-portfolio/
 │           └── page.tsx
 ├── src/
 │   └── lib/
+│       ├── project-details.ts
 │       └── supabase/
 │           ├── client.ts
-│           └── server.ts
+│           ├── server.ts
+│           ├── types.ts
+│           └── types/
+│               └── database.ts
+├── supabase/
+│   └── migrations/
+│       └── 001_projects_ordering.sql
 ├── public/
 ├── .env.local
 ├── package.json
