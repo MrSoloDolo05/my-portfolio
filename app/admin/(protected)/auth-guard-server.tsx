@@ -1,12 +1,4 @@
-Inspect the current changes in `app/admin/(protected)/page.tsx`.
-
-Confirm that:
-- The new-project insert payload explicitly includes `slug`.
-- The slug is generated from the title when creating a new project.
-- The final submitted slug is a non-empty string.
-- Existing project slugs are preserved during edits.
-
-Do not make further changes. Do not commit or push. Report your findings.import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseServerClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { getSupabaseOwnerId } from '@/lib/supabase/types';
 
