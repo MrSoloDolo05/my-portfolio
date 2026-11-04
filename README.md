@@ -25,6 +25,20 @@ Aspiring web developer / junior frontend developer.
 - **Admin (`/admin`)** — Protected project management dashboard, accessed through `/admin/login`.
 - **Admin login (`/admin/login`)** — Sign-in page for the protected admin dashboard.
 
+## THE BOX Case Study
+
+THE BOX is a personal songwriting workspace for organising songs and developing lyric ideas.
+
+**Role:** Project Creator & Developer (AI-assisted development). I directed development, defined requirements and functionality, made product decisions, reviewed generated code, tested the application, and guided refinement.
+
+**Technologies:** HTML5, CSS3, vanilla JavaScript, Firebase Authentication, Cloud Firestore, Local Storage, and the Datamuse API.
+
+**Key features:** CRATE song organisation, RED ROOM songwriting, ONE LINERS for lyric and verse storage, search, rhyme finder, import/export, and cloud sync.
+
+**Live application:** [https://the-box-6ce7b.web.app/#view=crate](https://the-box-6ce7b.web.app/#view=crate)
+
+**GitHub repository:** [https://github.com/MrSoloDolo05/THE-BOX](https://github.com/MrSoloDolo05/THE-BOX)
+
 ## Design Concept
 
 The portfolio uses the concept **"Growing Up With the Future"** to explore how games, films, the internet, and technology have evolved over time.
@@ -135,7 +149,7 @@ I created a `public.projects` table in Supabase to store project titles, summari
 
 ## Milestone 2 Reflection
 
-I developed this portfolio with recruiters, potential employers and other developers in mind, aiming to give them a clear overview of my skills, projects and development journey. Building the THE BOX case study helped me practise documenting a project, explaining technical decisions and presenting my contributions transparently. I deliberately postponed some visual refinements and additional features so I could first establish a functional minimum viable product (MVP). This gives me a solid foundation to improve the portfolio's visual identity and expand its functionality as my skills and projects develop.
+I wrote the THE BOX case study with recruiters, potential employers and other developers in mind, aiming to clearly communicate the project's purpose, my contributions and the technical decisions behind it. Building the THE BOX case study helped me practise documenting a project, explaining technical decisions and presenting my contributions transparently. I deliberately postponed some visual refinements and additional features so I could first establish a functional minimum viable product (MVP). This gives me a solid foundation to improve the portfolio's visual identity and expand its functionality as my skills and projects develop.
 
 ## AI Assistance Disclosure
 
