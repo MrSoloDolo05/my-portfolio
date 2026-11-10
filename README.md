@@ -21,9 +21,10 @@ Aspiring web developer / junior frontend developer.
 - **Project details (`/projects/[slug]`)** — Detail pages for projects, including the THE BOX case study.
 - **Skills (`/skills`)** — Skills grouped by area with links to supporting project evidence.
 - **About (`/about`)** — Background, development approach, and goals.
-- **Contact (`/contact`)** — Contact information and professional connection links.
+- **Contact (`/contact`)** — A contact form for submitting messages to the portfolio owner.
 - **Admin (`/admin`)** — Protected project management dashboard, accessed through `/admin/login`.
 - **Admin login (`/admin/login`)** — Sign-in page for the protected admin dashboard.
+- **Admin messages (`/admin/messages`)** — Protected inbox for the portfolio owner to view contact messages.
 
 ## THE BOX Case Study
 
@@ -114,7 +115,7 @@ Supabase provides dynamic project data, authentication, and database access cont
 
 ### Database Schema
 
-The application uses the `public.projects` table.
+The application uses the `public.projects` and `public.contact_messages` tables.
 
 | Column | Purpose |
 |---|---|
@@ -128,6 +129,18 @@ The application uses the `public.projects` table.
 | `owner_id` | ID of the user who owns the project |
 | `created_at` | Record creation timestamp |
 
+The `public.contact_messages` table stores visitor-submitted messages:
+
+| Column | Purpose |
+|---|---|
+| `id` | Message identifier |
+| `name` | Sender's name |
+| `email` | Sender's email address |
+| `subject` | Optional message subject |
+| `message` | Message content |
+| `created_at` | Submission timestamp |
+| `owner_id` | Portfolio owner ID supplied by the database |
+
 ### Authentication and Row Level Security
 
 - **Sign-in:** Email/password authentication through Supabase Auth.
@@ -136,6 +149,15 @@ The application uses the `public.projects` table.
 - **Row Level Security (RLS):** RLS is enabled on the projects table. Policies control public project reads and restrict project-management operations to authorized users.
 - **Project management:** The admin dashboard supports creating, editing, deleting, ordering, and uploading project images.
 - **Error handling:** The public Projects page and admin dashboard provide handling for common errors and empty states.
+- **Contact messages:** The `/contact` form submits messages to `public.contact_messages`. RLS permits public submissions but restricts reading and deleting messages to the portfolio owner. The owner accesses messages through the protected `/admin/messages` page.
+
+### Contact Form Spam Protection and Validation
+
+The contact form includes a honeypot field for basic spam protection. The server validates and trims submitted fields, validates email format, and enforces maximum lengths of 100 characters for name, 254 for email, 150 for subject, and 5,000 for the message. Request bodies larger than 16 KiB are rejected. Rate limiting and CAPTCHA are not implemented.
+
+### CV Download
+
+The homepage includes a Download CV link to `public/documents/Tyrone_Owen_CV.pdf`.
 
 ### Project Image Storage
 
@@ -150,6 +172,10 @@ I created a `public.projects` table in Supabase to store project titles, summari
 ## Milestone 2 Reflection
 
 I wrote the THE BOX case study with recruiters, potential employers and other developers in mind, aiming to clearly communicate the project's purpose, my contributions and the technical decisions behind it. Building the THE BOX case study helped me practise documenting a project, explaining technical decisions and presenting my contributions transparently. I deliberately postponed some visual refinements and additional features so I could first establish a functional minimum viable product (MVP). This gives me a solid foundation to improve the portfolio's visual identity and expand its functionality as my skills and projects develop.
+
+## Milestone 4 Reflection
+
+I added a contact form that stores visitor messages in Supabase and made them available to the portfolio owner through the protected admin inbox. I checked the public pages at phone (375px), tablet (768px), and desktop (1440px) widths; the navigation wraps onto two lines on phones but remains usable. I checked keyboard navigation and visible focus indicators, and verified the requested colour-contrast improvements in the local browser. I did not perform screen-reader testing, and the protected admin pages were not fully browser-tested at authenticated screen sizes.
 
 ## AI Assistance Disclosure
 
@@ -192,13 +218,20 @@ my-portfolio/
 │   │       ├── page.tsx
 │   │       └── not-found.tsx
 │   ├── contact/
-│   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── contact-form.tsx
+│   ├── api/
+│   │   └── contact/
+│   │       └── route.ts
 │   └── admin/
 │       ├── login/
-│       │   └── page.tsx
+│       │   ├── page.tsx
+│       │   └── login.tsx
 │       └── (protected)/
 │           ├── layout.tsx
-│           └── page.tsx
+│           ├── page.tsx
+│           └── messages/
+│               └── page.tsx
 ├── src/
 │   └── lib/
 │       ├── project-details.ts
@@ -210,8 +243,11 @@ my-portfolio/
 │               └── database.ts
 ├── supabase/
 │   └── migrations/
-│       └── 001_projects_ordering.sql
+│       ├── 001_projects_ordering.sql
+│       └── 002_contact_messages.sql
 ├── public/
+│   └── documents/
+│       └── Tyrone_Owen_CV.pdf
 ├── .env.local
 ├── package.json
 └── README.md

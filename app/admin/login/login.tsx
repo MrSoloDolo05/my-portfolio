@@ -58,7 +58,7 @@ export default function LoginPage() {
           <p className="text-xs font-bold tracking-[0.35em] text-cyan-300">
             GROWING UP WITH THE FUTURE
           </p>
-          <p className="mt-2 text-[10px] tracking-[0.25em] text-slate-500">
+          <p className="mt-2 text-[10px] tracking-[0.25em] text-slate-400">
             PORTFOLIO OPERATING SYSTEM // 01
           </p>
         </div>
@@ -105,7 +105,7 @@ export default function LoginPage() {
                 placeholder="player@example.com"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="w-full border-2 border-slate-600 bg-[#10152f] px-3 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300"
+                className="w-full border-2 border-slate-500 bg-[#10152f] px-3 py-3 text-sm text-white outline-none transition placeholder:text-slate-400 focus:border-cyan-300"
                 required
               />
             </div>
@@ -124,7 +124,7 @@ export default function LoginPage() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="w-full border-2 border-slate-600 bg-[#10152f] px-3 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300"
+                className="w-full border-2 border-slate-500 bg-[#10152f] px-3 py-3 text-sm text-white outline-none transition placeholder:text-slate-400 focus:border-cyan-300"
                 required
               />
             </div>
@@ -137,13 +137,13 @@ export default function LoginPage() {
               {loading ? 'AUTHENTICATING...' : '> INITIALIZE SESSION'}
             </button>
 
-            <p className="text-center text-[10px] leading-5 text-slate-500">
+            <p className="text-center text-[10px] leading-5 text-slate-400">
               RESTRICTED ACCESS // AUTHORIZED USERS ONLY
             </p>
           </form>
         </div>
 
-        <p className="mt-6 text-center text-[10px] tracking-wider text-slate-600">
+        <p className="mt-6 text-center text-[10px] tracking-wider text-slate-400">
           © PORTFOLIO SYSTEMS — END OF TRANSMISSION
         </p>
       </section>

@@ -122,6 +122,14 @@ export default function Home() {
                 >
                   CONTACT
                 </Link>
+
+                <a
+                  href="/documents/Tyrone_Owen_CV.pdf"
+                  download="Tyrone_Owen_CV.pdf"
+                  className="border border-[var(--border)] px-5 py-3 font-mono text-sm text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                >
+                  DOWNLOAD CV ↓
+                </a>
               </div>
             </div>
 
@@ -144,7 +152,7 @@ export default function Home() {
 
               <div className="space-y-5 py-5">
                 <div>
-                  <p className="retro-label text-[var(--subtle)]">
+                  <p className="retro-label text-[#7b8a7d]">
                     ROLE
                   </p>
                   <p className="mt-1 text-sm">Placeholder role</p>

@@ -1,6 +1,7 @@
 
 'use client';
 
+import Link from 'next/link';
 import { createSupabaseClient } from '@/lib/supabase/client';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
@@ -451,6 +452,13 @@ export default function AdminPage() {
           </p>
 
           <div className="mt-4 flex flex-wrap gap-3">
+  <Link
+    href="/admin/messages"
+    className="inline-block border-2 border-lime-300 px-4 py-2 text-xs font-bold uppercase text-lime-300 transition hover:bg-lime-300 hover:text-[#10152f]"
+  >
+    Messages
+  </Link>
+
   <a
     href="/projects"
     className="inline-block border-2 border-cyan-300 px-4 py-2 text-xs font-bold uppercase text-cyan-300 transition hover:bg-cyan-300 hover:text-[#10152f]"

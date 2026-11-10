@@ -315,7 +315,7 @@ export default function SkillsPage() {
                 </p>
               </div>
               <div className="retro-panel-raised shrink-0 p-4">
-                <p className="retro-label text-[var(--subtle)]">
+                <p className="retro-label text-[#7c92a4]">
                   EVIDENCE INDEX
                 </p>
                 <p className="mt-2 font-mono text-2xl font-bold text-[var(--accent)]">
