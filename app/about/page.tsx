@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/page-metadata";
+
+export const metadata = createPageMetadata(
+  "/about",
+  "About",
+  "Learn about Tyrone Owen's approach to building applications, development journey, and goals as an aspiring full-stack developer.",
+);
 
 export default function About() {
   return (

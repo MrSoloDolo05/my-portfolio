@@ -1,7 +1,14 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { createPageMetadata } from "@/lib/page-metadata";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Project } from "@/lib/supabase/types";
+
+export const metadata = createPageMetadata(
+  "/projects",
+  "Projects",
+  "Browse projects and experiments by Tyrone Owen, including web applications and work in progress.",
+);
 
 type ProjectCard = Pick<
   Project,

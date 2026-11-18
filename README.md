@@ -177,6 +177,14 @@ I wrote the THE BOX case study with recruiters, potential employers and other de
 
 I added a contact form that stores visitor messages in Supabase and made them available to the portfolio owner through the protected admin inbox. I checked the public pages at phone (375px), tablet (768px), and desktop (1440px) widths; the navigation wraps onto two lines on phones but remains usable. I checked keyboard navigation and visible focus indicators, and verified the requested colour-contrast improvements in the local browser. I did not perform screen-reader testing, and the protected admin pages were not fully browser-tested at authenticated screen sizes.
 
+## Milestone 5: SEO and Lighthouse
+
+**Audit:** Mobile Lighthouse
+**Scores:** Performance 92, Accessibility 95, Best Practices 100, SEO 100.
+**Evidence:** [Mobile Lighthouse screenshot](./docs/lighthouse-mobile.png)
+
+The mobile Lighthouse audit confirmed that the portfolio meets the required Accessibility and SEO targets. Performance findings included render-blocking requests, a network dependency chain, and a small amount of legacy JavaScript, with potential savings of 90 ms and 9 KiB respectively. The LCP breakdown also highlighted areas to investigate in the page's largest contentful paint. These findings identify opportunities for further performance optimisation.
+
 ## AI Assistance Disclosure
 
 AI tools were used extensively during development, primarily for code generation, implementation assistance, and troubleshooting. I directed development, defined requirements and functionality, made product decisions, reviewed generated changes, tested the application, and guided its refinement. The project includes AI-generated code; I do not claim to have independently written all of it.

@@ -1,7 +1,36 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { createPageMetadata } from "@/lib/page-metadata";
 import { projectDetails } from "@/lib/project-details";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projectDetails.find((detail) => detail.slug === slug);
+
+  if (!project) {
+    return createPageMetadata(
+      `/projects/${slug}`,
+      "Project Not Found",
+      "This project could not be found in Tyrone Owen's portfolio.",
+    );
+  }
+
+  const description = project.introduction.startsWith("Placeholder:")
+    ? `${project.title} project record in Tyrone Owen's developer portfolio.`
+    : project.introduction;
+
+  return createPageMetadata(
+    `/projects/${slug}`,
+    `${project.title} ${project.caseStudy ? "Case Study" : "Project"}`,
+    description,
+  );
+}
 
 export function generateStaticParams() {
   return projectDetails.map(({ slug }) => ({ slug }));

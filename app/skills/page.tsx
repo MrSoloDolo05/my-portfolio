@@ -1,4 +1,11 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/page-metadata";
+
+export const metadata = createPageMetadata(
+  "/skills",
+  "Skills",
+  "Explore Tyrone Owen's web development skills, technologies, and evidence from portfolio projects.",
+);
 
 const skillGroups = [
   {

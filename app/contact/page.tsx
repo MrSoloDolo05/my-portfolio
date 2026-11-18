@@ -1,6 +1,13 @@
 
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/page-metadata";
 import ContactForm from "./contact-form";
+
+export const metadata = createPageMetadata(
+  "/contact",
+  "Contact",
+  "Contact Tyrone Owen about learning opportunities, collaborations, and web development.",
+);
 
 export default function Contact() {
   return (
@@ -99,6 +106,28 @@ export default function Contact() {
                 Available for networking, learning, and future
                 opportunities.
               </p>
+
+              <nav
+                aria-label="Professional profiles"
+                className="mt-5 flex flex-wrap gap-3"
+              >
+                <a
+                  href="https://github.com/MrSoloDolo05"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-[var(--border)] px-3 py-2 font-mono text-xs text-[var(--foreground)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:outline"
+                >
+                  GitHub profile ↗
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/tyrone-owen-b67374450/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-[var(--border)] px-3 py-2 font-mono text-xs text-[var(--foreground)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] focus-visible:outline"
+                >
+                  LinkedIn profile ↗
+                </a>
+              </nav>
 
               <p className="retro-label mt-6 border-t border-[var(--border)] pt-4 text-[#8d87ae]">
                 STATUS: PROFILE ACTIVE
